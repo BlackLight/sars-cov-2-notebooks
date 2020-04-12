@@ -1,8 +1,8 @@
 import json
 import os
 
+import numpy as np
 import pandas as pd
-from typing import Iterable
 
 
 def _path(p: str) -> str:
@@ -29,22 +29,20 @@ def load_genomes(file: str) -> pd.DataFrame:
     return pd.DataFrame.from_records(genomes)
 
 
-def save_similarity_matrix(matrix: Iterable[Iterable[float]], file: str):
+def save_similarity_matrix(matrix: np.ndarray, file: str):
     """
-    Save a genome similarity matrix to a JSON file.
-    """
-    file = _path(file)
-    with open(file, 'w') as f:
-        json.dump(matrix, f)
-
-
-def load_similarity_matrix(file: str) -> Iterable[Iterable[float]]:
-    """
-    Load a genome similarity matrix from a JSON file.
+    Save a genome similarity matrix as a numpy compressed file.
     """
     file = _path(file)
-    with open(file, 'r') as f:
-        return json.load(f)
+    np.savez_compressed(file, matrix=matrix)
+
+
+def load_similarity_matrix(file: str) -> np.ndarray:
+    """
+    Load a genome similarity matrix from a numpy compressed file
+    """
+    file = _path(file)
+    return np.load(file)['matrix']
 
 
 # vim:sw=4:ts=4:et:

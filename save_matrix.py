@@ -1,14 +1,11 @@
 import os
-# import matplotlib.pyplot as plt
 
 from covid19.compute_helpers import similarity_matrix
 from covid19.datasets import datasets_dir
-from covid19.file_helpers import save_genomes, load_genomes, save_similarity_matrix, load_similarity_matrix
-from covid19.net_helpers import download_genomes
-from covid19.plot_helpers import plot_genomes_by_length
+from covid19.file_helpers import load_genomes, save_similarity_matrix, load_similarity_matrix
 
 genomes_file = os.path.join(datasets_dir, 'genomes.json')
-similarity_matrix_file = os.path.join(datasets_dir, 'similarity_matrix.json')
+similarity_matrix_file = os.path.join(datasets_dir, 'similarity_matrix.npz')
 
 #%%
 
@@ -18,12 +15,6 @@ similarity_matrix_file = os.path.join(datasets_dir, 'similarity_matrix.json')
 #%%
 
 genomes = load_genomes(genomes_file)
-
-#%%
-
-# fig = plt.figure()
-# plot_genomes_by_length(genomes, fig)
-# plt.show()
 
 #%%
 
