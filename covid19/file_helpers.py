@@ -5,11 +5,11 @@ import numpy as np
 import pandas as pd
 
 
-def _path(p):
+def _path(p: str) -> str:
     return os.path.abspath(os.path.expanduser(p))
 
 
-def save_genomes(genomes, file):
+def save_genomes(genomes: pd.DataFrame, file: str):
     """
     Save a list of genome objects to a JSON file.
     """
@@ -18,7 +18,7 @@ def save_genomes(genomes, file):
         json.dump([g.to_dict() for _, g in genomes.iterrows()], f)
 
 
-def load_genomes(file):
+def load_genomes(file: str) -> pd.DataFrame:
     """
     Load a list of genome objects from a JSON file.
     """
@@ -29,7 +29,7 @@ def load_genomes(file):
     return pd.DataFrame.from_records(genomes)
 
 
-def save_similarity_matrix(matrix, file):
+def save_similarity_matrix(matrix: np.ndarray, file: str):
     """
     Save a genome similarity matrix as a numpy compressed file.
     """
@@ -37,7 +37,7 @@ def save_similarity_matrix(matrix, file):
     np.savez_compressed(file, matrix=matrix)
 
 
-def load_similarity_matrix(file):
+def load_similarity_matrix(file: str) -> np.ndarray:
     """
     Load a genome similarity matrix from a numpy compressed file
     """

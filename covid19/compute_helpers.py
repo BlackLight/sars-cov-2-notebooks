@@ -6,13 +6,13 @@ import Levenshtein
 from typing import List
 
 
-def chunks(lst, n):
+def chunks(lst: List, n: int):
     """Yield successive n-sized chunks from lst."""
     for i in range(0, len(lst), n):
         yield lst[i:i + n]
 
 
-def similarity(s1, s2):
+def similarity(s1: str, s2: str):
     """
     Get the similarity between two genome sequences represented as strings.
     The similarity is calculated as 1 - L(s1, s2)/H(s1, s2), where
@@ -22,7 +22,7 @@ def similarity(s1, s2):
     return 1 - (Levenshtein.distance(s1, s2) / max(len(s1), len(s2)))
 
 
-def _similarity_worker(args):
+def _similarity_worker(args: tuple) -> tuple:
     """
     Genome similarity parallel worker. Takes two genomes and their
     indices as inputs and returns their similarity.
@@ -31,7 +31,7 @@ def _similarity_worker(args):
     return i, j, similarity(g1, g2)
 
 
-def similarity_matrix(genomes, n_workers=cpu_count()):
+def similarity_matrix(genomes: pd.DataFrame, n_workers: int = cpu_count()) -> np.ndarray:
     """
     Return the similarity matrix of a list of genomes.
     The calculation is by default parallelized, with n_workers=number of CPU cores.
