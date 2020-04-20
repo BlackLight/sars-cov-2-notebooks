@@ -2,8 +2,10 @@
 
 Jupyter notebooks to analyze the available viral genomes and diffusion models
 
-### Dependencies
+### Installation
 
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/BlackLight/sars-cov-2-notebooks
+cd sars-cov-2-notebooks
+pip install .
 ```
