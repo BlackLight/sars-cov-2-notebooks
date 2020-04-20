@@ -1,8 +1,10 @@
 from io import StringIO
+from typing import Optional
 
 import requests
 import pandas as pd
 
+from covid19.file_helpers import path
 from covid19.models import Genome
 
 
@@ -43,9 +45,11 @@ def parse_response(response: str) -> pd.DataFrame:
     return pd.DataFrame.from_records([g.to_dict() for g in genomes])
 
 
-def download_genomes() -> pd.DataFrame:
+def download_genomes(fasta_file: Optional[str] = None) -> pd.DataFrame:
     """
     Download and parse the most recent SARS-CoV-2 genomes list from ncbi.nlm.nih.gov.
+
+    :param fasta_file: If set, the method will save the downloaded genomes in FASTA format to the specified file.
     """
     url = 'https://www.ncbi.nlm.nih.gov/genomes/VirusVariation/vvsearch2/' + \
           '?q=*:*&fq={!tag=SeqType_s}SeqType_s:("Nucleotide")' + \
@@ -53,6 +57,11 @@ def download_genomes() -> pd.DataFrame:
           '&dlfmt=fasta&fl=id,Definition_s,Nucleotide_seq'
 
     response = requests.get(url).text
+    if fasta_file:
+        fasta_file = path(fasta_file)
+        with open(fasta_file, 'w') as f:
+            f.write(response)
+
     return parse_response(response)
 
 
